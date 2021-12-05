@@ -24,10 +24,13 @@
             <nav class="navbar shadow-1 primary">
                 <a href="{{ path('app_home')}}" class="navbar-brand">PetitesAnnonces</a>
                 <div class="navbar-menu ml-auto">
-                    <a class="navbar-link" href="#">Link 1</a>
-                    <a class="navbar-link" href="#">Link 2</a>
-                    <a class="navbar-link" href="#">Link 3</a>
-                    <a class="navbar-link" href="#">Link 4</a>
+                    <a class="navbar-link" href="{{ path('app_login') }}">Connexion</a>
+                    <a class="navbar-link" href="{{ path('app_logout') }}">Deconnexion</a>
+                    <a class="navbar-link" href="{{ path('app_register') }}">inscription</a>
+                    <a class="navbar-link" href="{{ path('admin_home') }}">Admin</a>
+                    <a class="navbar-link" href="{{ path('admin_categories_ajout') }}">Ajouter une catégorie</a>
+                    <a class="navbar-link" href="{{ path('users') }}">Utilisateur</a>
+                    <a class="navbar-link" href="{{ path('users_annonces_ajout') }}">Ajouter une annonce</a>
                 </div>
             </nav>
         </header>
