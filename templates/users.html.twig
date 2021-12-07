@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}PetitesAnnonces
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		<!-- Axentix CSS minified version -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.3.4/dist/css/axentix.min.css"> {% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+		<link
+		rel="stylesheet" href="{{ asset('/css/styles.css') }}">
+
+		<!-- Axentix JS minified version -->
+		<script src="https://cdn.jsdelivr.net/npm/axentix@1.3.4/dist/js/axentix.min.js"></script>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+		<script src="{{ asset('/js/script.js') }}"></script>
+	</head>
+	<body class="layout with-sidenav">
+		<header>
+			<nav class="navbar shadow-1 primary">
+				<a href="{{ path('app_home')}}" class="navbar-brand">PetitesAnnonces</a>
+				<div class="navbar-menu ml-auto">
+					<a class="navbar-link" href="{{ path('app_login') }}">Connexion</a>
+					<a class="navbar-link" href="{{ path('app_logout') }}">Deconnexion</a>
+					<a class="navbar-link" href="{{ path('app_register') }}">inscription</a>
+					<a class="navbar-link" href="{{ path('admin_home') }}">Admin</a>
+					<a class="navbar-link" href="{{ path('admin_categories_ajout') }}">Ajouter une catégorie</a>
+					<a class="navbar-link" href="{{ path('users') }}">Utilisateur</a>
+					<a class="navbar-link" href="{{ path('users_annonces_ajout') }}">Ajouter une annonce</a>
+				</div>
+			</nav>
+		</header>
+		<div id="example-sidenav" data-ax="sidenav" class="sidenav shadow-1 large fixed white">
+			<div class="sidenav-header">
+				<button data-target="example-sidenav" class="sidenav-trigger">
+					<i class="fas fa-times"></i>
+				</button>
+				<img class="sidenav-logo dropshadow-1" src="your_img_path" alt="Logo"/>
+			</div>
+			<a href="#" class="sidenav-link active">Mon profil</a>
+			<a href="#" class="sidenav-link">Mes annonces</a>
+		</div>
+		<main>
+			{% block body %}{% endblock %}
+			<button data-target="example-sidenav" class="btn rounded-1 press amaranth dark-1 sidenav-trigger hide-md-up">
+				Ouvrir
+			</button>
+		</main>
+
+		<footer class="footer primary">
+			Copyright © 2021 - Example
+		</footer>
+	</body>
+</html>

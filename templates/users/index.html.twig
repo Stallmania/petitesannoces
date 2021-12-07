@@ -1,20 +1,32 @@
-{% extends 'base.html.twig' %}
+{% extends 'users.html.twig' %}
 
-{% block title %}Hello UsersController!{% endblock %}
+{% block title %}profil Utilisateur
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/petitesannonces/src/Controller/UsersController.php'|file_link(0) }}">src/Controller/UsersController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/petitesannonces/templates/users/index.html.twig'|file_link(0) }}">templates/users/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<div class="grix xs4 container">
+		{% for message in app.flashes('message') %}
+			<div class="p-3 my-2 rounded-1 green light-4 txt-green txt-dark-4">{{message}}</div>
+		{% endfor %}
+		<div class="col-xs4"><h1> Profile de {{ app.user.name }} {{ app.user.firstname }} </h1></div>
+		<div class="col-xs1">Nom :</div>
+		<div class="col-xs3">{{ app.user.name }}</div>
+		<div class="col-xs1">Prénom :</div>
+		<div class="col-xs3">{{ app.user.firstname }}</div>
+		<div class="col-xs1">email</div>
+		<div class="col-xs3">{{ app.user.email }}</div>
+		<div class="col-xs4">
+            <a href="{{ path('users_profil_modif')}}" class="btn shadow-1 rounded-1 blue">modifier mon profile</a>
+            <a href="{{ path('users_passe_modif')}}" class="btn shadow-1 rounded-1 blue">modifier mon mot de passe</a>
+        </div>
+	</div>
+    <br>
+    <div class="grix xs4 container">
+        <div class="col-xs4"><h1>Mes annonces ({{ app.user.annonces | length}})</h1></div>
+        {% for annonce  in app.user.annonces %}
+            <div class="col-xs1">Titre :</div>
+		    <div class="col-xs3">{{ annonce.title }}</div>
+		    <div class="col-xs3">{{ annonce.content }}</div>
+        {% endfor %}
+    </div>
 {% endblock %}
