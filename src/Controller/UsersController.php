@@ -2,18 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Annonces;
 use App\Entity\Users;
+use App\Entity\Annonces;
 use App\Form\AnnonceType;
 use App\Form\EditProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordHasherEncoder;
+
 
 class UsersController extends AbstractController
 {
@@ -68,15 +67,25 @@ class UsersController extends AbstractController
     /**
      * @Route("/users/passmodif", name="users_passe_modif")
      */
-    public function editPass(Request $request, PasswordHasher $passwordHasher)
+    public function editPass(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $manager)
     {
         if ($request->isMethod('POST')) {
             $user = $this->getUser();
-            if ($request->request->get('pass') == $request->request->get('pass2')) {
-                //$user->$passwordHasher->hash()
-            }else{
+            if ($request->request->get('passe') == $request->request->get('passe2'))
+                {
+                //dd($user->getPassword());
+                $encodedPassword = $userPasswordHasher->hashPassword($user,$request->request->get('passe'));
+
+                $user->setPassword($encodedPassword);
+
+                //$manager->persist($encodedPassword);
+                $manager->flush();
+
+                $this->addFlash('message', 'Mot de passe mis a jour avec succsé');
+                return $this->render('users/index.html.twig');
+                }
+            else{
                 $this->addFlash('error', 'Les deux mots des passe ne sont pas identique !');
-                dd($user);
             }
         }
         return $this->render('users/editPasse.html.twig');
