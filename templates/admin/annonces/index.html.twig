@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gerer les annonces
+{% endblock %}
+
+{% block body %}
+
+	<h1>{{controller_name}}</h1>
+	<div class="responsive-table">
+		<table class="table striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Titre</th>
+					<th>Date</th>
+					<th>Active</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for annonce in annonces %}
+					<tr>
+						<td>{{annonce.id}}</td>
+						<td>{{annonce.title}}</td>
+						<td>{{annonce.createdat | date}}</td>
+						<td>
+							<label class="form-switch mt-2">
+								Off
+								<input type="checkbox" {{annonce.active ? 'checked':''}} data-id="{{annonce.id}}">
+								<span class="slider"></span>
+								On
+							</label>
+						</td>
+						<td>
+							<button class="btn rounded-1 primary press modal-trigger" data-target="modal-delete" data-id="{{annonce.id}}" data-title="{{annonce.title}}">SUPPRIMER</button>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="modal shadow-1 white rounded-3 bouncing" id="modal-delete" data-ax="modal">
+			<div class="modal-header">
+				Supprimer une annonce
+				<button data-target="modal-delete" class="modal-trigger">
+					X
+				</button>
+			</div>
+			<div class="modal-content"></div>
+			<div class="modal-footer">
+				<a href="" class="btn shadow-1 rounded-1 blue">Supprimer</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		window.onload = () => {
+			let modal = new Axentix.Modal('#modal-delete')
+
+			let activer = document.querySelectorAll("[type=checkbox]")
+			for (let bouton of activer) {
+				bouton.addEventListener("click", function () {
+				let xmlhttp = new XMLHttpRequest;
+
+				xmlhttp.open("get", `/admin/annonces/activer/${this.dataset.id}`)
+				xmlhttp.send()
+				})
+			}
+
+			let supprimer = document.querySelectorAll(".modal-trigger")
+			for (let bouton of supprimer) {
+				bouton.addEventListener("click", function () {
+					document.querySelector(".modal-content").innerText = `Etes vous sur de vouloir supprimer l'annonce ${this.dataset.title}`
+					document.querySelector(".modal-footer a").href = `/admin/annonces/supprimer/${this.dataset.id}`
+				})
+			}
+		}
+	</script>
+{% endblock %}
