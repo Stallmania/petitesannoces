@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Entity\Annonces;
+use App\Entity\Images;
 use App\Form\AnnonceType;
 use App\Form\EditProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -32,6 +34,17 @@ class UsersController extends AbstractController
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
+            $images = $form->get('images')->getData();
+            foreach($images as $image){
+                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+
+                $image->move($this->getParameter('images_directory'),$fichier);
+
+                $img = new Images();
+                $img->setName($fichier);
+                $annonce->addImage($img);
+            }
+
             $annonce->setUsers($this->getUser());
             $annonce->setActive(false);
 
@@ -46,6 +59,27 @@ class UsersController extends AbstractController
         ]);
     }
     /**
+     * @Route("/users/annonces/supprimer-image/{id}", name="users_annonces_image_delete", method={"DELETE"})
+     */
+    public function deleteImage(Images $image,Request $request, EntityManagerInterface $em): Response
+    {
+        $data = json_decode($request->getContent(),true);
+        if ($this->isCsrfTokenValid("delete".$image->getId(),$data['_token'])) {
+            $nom = $image->getName();
+
+            unlink($this->getParameter('image_directory'),'/'.$nom);
+
+            $em->remove($image);
+            $em->flush();
+
+            return new JsonResponse(['success' => 1]);
+        }else{
+            return new JsonResponse(['error' => 'Token invalid'], 400);
+        }
+    }
+
+    //////////////////////////////////Profil///////////////////////////////
+    /**
      * @Route("/users/profilmodif", name="users_profil_modif")
      */
     public function editProfil(Request $request, EntityManagerInterface $em): Response
@@ -53,6 +87,7 @@ class UsersController extends AbstractController
         $user = $this->getUser();
         $form = $this->createForm(EditProfilType::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() and $form->isValid()) {
             $em->persist($user);
             $em->flush();

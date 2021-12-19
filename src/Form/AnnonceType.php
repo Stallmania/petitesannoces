@@ -7,7 +7,7 @@ use App\Entity\Categories;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +28,13 @@ class AnnonceType extends AbstractType
             //->add('users')
             ->add('categories',EntityType::class,[
                 'class'=> Categories::class])
+                
+            ->add('images',FileType::class,[
+                'label'=> false,
+                'multiple'=> true,
+                'required'=> false,
+                'mapped'=> false])
+
             ->add('Envoyer',SubmitType::class);
     }
 
