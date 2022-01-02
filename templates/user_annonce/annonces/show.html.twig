@@ -1,0 +1,28 @@
+{% extends 'users.html.twig' %}
+
+{% block title %}Hello UsersController!{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Title</th>
+                <td>{{ annonce.title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ annonce.content | raw }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        {% for image in annonce.images %}
+            <div>
+                <img src="{{ asset('/uploads/'~image.name) }}" alt="" width="150">
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ path('annonces_edit', {'id': annonce.id}) }}">edition de l'annonce</a>
+{% endblock %}

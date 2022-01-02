@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Annonces{% endblock %}
+
+{% block body %}
+    <h1>Edit Annonces</h1>
+
+    {{ include('user_annonce/annonces/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+
+    {{ include('user_annonce/annonces/_delete_form.html.twig') }}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/images.js') }}"></script>
+{% endblock %}

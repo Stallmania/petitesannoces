@@ -24,9 +24,9 @@
     <div class="grix xs4 container">
         <div class="col-xs4"><h1>Mes annonces ({{ app.user.annonces | length}})</h1></div>
         {% for annonce  in app.user.annonces %}
-            <div class="col-xs1">Titre :</div>
-		    <div class="col-xs3">{{ annonce.title | raw}}</div>
-		    <div class="col-xs3">{{ annonce.content | raw}}</div>
+		    <div class="col-xs2"><a href="{{ path('annonces_show', {'id': annonce.id}) }}"><strong>{{ annonce.title | raw}}</strong></a></div>
+		    <div class="col-xs2">{{ annonce.content | raw}}</div>
+			<hr>
         {% endfor %}
     </div>
 {% endblock %}
