@@ -1,32 +1,57 @@
-{% extends 'users.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}profil Utilisateur
 {% endblock %}
 
 {% block body %}
-	<div class="grix xs4 container">
-		{% for message in app.flashes('message') %}
-			<div class="p-3 my-2 rounded-1 green light-4 txt-green txt-dark-4">{{message}}</div>
-		{% endfor %}
-		<div class="col-xs4"><h1> Profile de {{ app.user.name }} {{ app.user.firstname }} </h1></div>
-		<div class="col-xs1">Nom :</div>
-		<div class="col-xs3">{{ app.user.name }}</div>
-		<div class="col-xs1">Prénom :</div>
-		<div class="col-xs3">{{ app.user.firstname }}</div>
-		<div class="col-xs1">email</div>
-		<div class="col-xs3">{{ app.user.email }}</div>
-		<div class="col-xs4">
-            <a href="{{ path('users_profil_modif')}}" class="btn shadow-1 rounded-1 blue">modifier mon profile</a>
-            <a href="{{ path('users_passe_modif')}}" class="btn shadow-1 rounded-1 blue">modifier mon mot de passe</a>
-        </div>
+<div class="container">
+	{% for message in app.flashes('message') %}
+		<div class="p-3 my-2 rounded-1 green light-4 txt-green txt-dark-4">{{message}}</div>
+	{% endfor %}
+	<div class="row">
+		<div class="col-lg-4">
+		<div><h1>({{ app.user.annonces | length}}) annonces</h1></div>
+		</div> 
+		<div class="col-lg-4"></div> 
+		<div class="col-lg-4"> 
+			<p>
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+					Mon profile
+				</button>
+			</p>
+			<div>
+				<div class="collapse collapse-horizontal" id="collapseWidthExample">
+					<div class="card card-body" style="width: 300px;">
+						<div>{{ app.user.name }}</div>
+						<div>{{ app.user.firstname }}</div>
+						<div>{{ app.user.email }}</div>
+						<div>
+							<a href="{{ path('users_profil_modif')}}" class="btn btn-primary">modifier mon profile</a>
+							<a href="{{ path('users_passe_modif')}}" class="btn btn-primary">modifier mon mot de passe</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-    <br>
-    <div class="grix xs4 container">
-        <div class="col-xs4"><h1>Mes annonces ({{ app.user.annonces | length}})</h1></div>
-        {% for annonce  in app.user.annonces %}
-		    <div class="col-xs2"><a href="{{ path('annonces_show', {'id': annonce.id}) }}"><strong>{{ annonce.title | raw}}</strong></a></div>
-		    <div class="col-xs2">{{ annonce.content | raw}}</div>
-			<hr>
-        {% endfor %}
-    </div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">titre</th>
+				<th scope="col">contenue</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for annonce  in app.user.annonces %}
+				{% set counter = ( counter | default(0) ) + 1 %}
+			<tr>
+				<th scope="row">{{ counter}}</th>
+				<td><a href="{{ path('annonces_show', {'id': annonce.id}) }}"><strong>{{ annonce.title | raw}}</strong></a></td>
+				<td>{{ annonce.content | raw}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 {% endblock %}
