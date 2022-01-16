@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container py-5">
 	{% for message in app.flashes('message') %}
 		<div class="p-3 my-2 rounded-1 green light-4 txt-green txt-dark-4">{{message}}</div>
 	{% endfor %}

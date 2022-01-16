@@ -19,9 +19,7 @@ class UserAnnonceController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('user_annonce/index.html.twig', [
-            'controller_name' => 'UserAnnonceController',
-        ]);
+        return $this->redirectToRoute('users');
     }
     
     /**
@@ -67,12 +65,13 @@ class UserAnnonceController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_annonce', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('users', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user_annonce/annonces/modification.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
+            /* 'editmode'=>$annonce->getId() !== null */
         ]);
     }
 
@@ -147,6 +146,6 @@ class UserAnnonceController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('annonces_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('users', [], Response::HTTP_SEE_OTHER);
     }
 }

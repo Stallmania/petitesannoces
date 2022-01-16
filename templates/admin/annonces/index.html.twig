@@ -4,60 +4,73 @@
 {% endblock %}
 
 {% block body %}
-
+<div class="container py-5">
 	<h1>{{controller_name}}</h1>
-	<div class="responsive-table">
-		<table class="table striped">
-			<thead>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Titre</th>
+				<th>Date</th>
+				<th>Active</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for annonce in annonces %}
 				<tr>
-					<th>ID</th>
-					<th>Titre</th>
-					<th>Date</th>
-					<th>Active</th>
-					<th>Action</th>
+					<td>{{annonce.id}}</td>
+					<td>{{annonce.title}}</td>
+					<td>{{annonce.createdat | date}}</td>
+					<td>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{annonce.active ? 'checked':''}} data-id="{{annonce.id}}">
+						<label class="form-check-label" for="flexSwitchCheckChecked">Active/desactiver</label>
+					</div>
+
+						{# <label class="form-switch mt-2">
+							Off
+							<input type="checkbox" {{annonce.active ? 'checked':''}} data-id="{{annonce.id}}">
+							<span class="slider"></span>
+							On
+						</label> #}
+					</td>
+					<td>
+						{# <button class="btn btn-danger" data-target="modal-delete" data-id="{{annonce.id}}" data-title="{{annonce.title}}">SUPPRIMER</button> #}
+
+						<!-- Button modal -->
+						<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{annonce.id}}" data-title="{{annonce.title}}">SUPPRIMER</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Suppression !</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<p>Etes vous sur de vouloir supprimer l'annonce : 	{{annonce.title}}</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+										<a href="/admin/annonces/supprimer/{{annonce.id}}" type="button" class="btn btn-danger">Supprimer</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 				</tr>
-			</thead>
-			<tbody>
-				{% for annonce in annonces %}
-					<tr>
-						<td>{{annonce.id}}</td>
-						<td>{{annonce.title}}</td>
-						<td>{{annonce.createdat | date}}</td>
-						<td>
-							<label class="form-switch mt-2">
-								Off
-								<input type="checkbox" {{annonce.active ? 'checked':''}} data-id="{{annonce.id}}">
-								<span class="slider"></span>
-								On
-							</label>
-						</td>
-						<td>
-							<button class="btn rounded-1 primary press modal-trigger" data-target="modal-delete" data-id="{{annonce.id}}" data-title="{{annonce.title}}">SUPPRIMER</button>
-						</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<div class="modal shadow-1 white rounded-3 bouncing" id="modal-delete" data-ax="modal">
-			<div class="modal-header">
-				Supprimer une annonce
-				<button data-target="modal-delete" class="modal-trigger">
-					X
-				</button>
-			</div>
-			<div class="modal-content"></div>
-			<div class="modal-footer">
-				<a href="" class="btn shadow-1 rounded-1 blue">Supprimer</a>
-			</div>
-		</div>
-	</div>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 {% endblock %}
 
 {% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<script>
 		window.onload = () => {
-			let modal = new Axentix.Modal('#modal-delete')
-
 			let activer = document.querySelectorAll("[type=checkbox]")
 			for (let bouton of activer) {
 				bouton.addEventListener("click", function () {
@@ -68,13 +81,13 @@
 				})
 			}
 
-			let supprimer = document.querySelectorAll(".modal-trigger")
+			/* et supprimer = document.querySelectorAll(".modal")
 			for (let bouton of supprimer) {
 				bouton.addEventListener("click", function () {
-					document.querySelector(".modal-content").innerText = `Etes vous sur de vouloir supprimer l'annonce ${this.dataset.title}`
-					document.querySelector(".modal-footer a").href = `/admin/annonces/supprimer/${this.dataset.id}`
+					document.querySelector(".modal-body").innerText = `Etes vous sur de vouloir supprimer l'annonce ${this.dataset.title}`
+					document.querySelector(".btn-danger a").href = `/admin/annonces/supprimer/${this.dataset.id}`
 				})
-			}
+			} */
 		}
 	</script>
 {% endblock %}

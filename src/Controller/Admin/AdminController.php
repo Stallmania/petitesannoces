@@ -24,24 +24,4 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/index.html.twig');
     }
-    /**
-     * @Route("/categories/ajout", name="categories_ajout")
-     */
-    public function ajoutCategorie(Request $request, EntityManagerInterface $em): Response
-    {
-        $categorie = new Categories;
-        $form = $this->createForm(CategoriesType::class, $categorie);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() and $form->isValid()) {
-            $em->persist($categorie);
-            $em->flush();
-
-            return $this->redirectToRoute('admin_home');
-        }
-
-        return $this->render('admin/categories/ajout.html.twig', [
-            'form'=> $form->createView()
-        ]);
-    }
 }

@@ -33,9 +33,9 @@ class AnnonceType extends AbstractType
                 'label'=> false,
                 'multiple'=> true,
                 'required'=> false,
-                'mapped'=> false])
+                'mapped'=> false]);
 
-            ->add('Envoyer',SubmitType::class);
+/*             ->add('Envoyer',SubmitType::class); */
     }
 
     public function configureOptions(OptionsResolver $resolver): void

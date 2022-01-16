@@ -1,6 +1,5 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-
+    
     {# Si la route est "annonces_edit on affiche les images #}
 	{% if app.request.attributes.get('_route') == 'annonces_edit' %}
         <h2>Images</h2>
@@ -13,5 +12,6 @@
             </div>
         {% endfor %}
     {% endif %}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_widget(form) }}
+    <button class="btn btn-success" type="submit">Enregistrer</button>
 {{ form_end(form) }}
