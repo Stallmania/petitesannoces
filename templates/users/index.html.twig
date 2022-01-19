@@ -48,7 +48,7 @@
 			<tr>
 				<th scope="row">{{ counter}}</th>
 				<td><a href="{{ path('annonces_show', {'id': annonce.id}) }}"><strong>{{ annonce.title | raw}}</strong></a></td>
-				<td>{{ annonce.content | raw}}</td>
+				<td>{{ annonce.content | u.truncate(50, '...') | raw  }}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
