@@ -1,27 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Petites Annonces{% endblock %}
+{% block title %}Home{% endblock %}
 
-{% block body %}
-    <div class="container py-5">
-        <h1>Site de petites annonces</h1>
-        {% for annonce in annonces %}
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="{{ asset('uploads/' ~ annonce.images[0].name) }}" class="img-fluid rounded-start" alt="{{ annonce.title }}">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ annonce.title }}</h5>
-                            <p class="card-text">{{ annonce.content | u.truncate(50, '...') | raw}}</p>
-                            <p class="card-text">
-                                <small class="text-muted">{{ annonce.createdAt | date}}</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+{% block main %}
+	<div class="container" style="min-height: calc(100vh - 215.96px - 57px)">
+		<h1>Site de petites annonces</h1>
+		{% for annonce in annonces %}
+			<div class="card mb-3">
+				<div class="row g-0">
+					<div class="col-md-4">
+						{% if annonce.images | length > 1 %}
+							<div id="{{'carouselExampleControlsNoTouching' ~ annonce.id}}" class="carousel slide" data-bs-touch="false" data-bs-interval="false" style="width:300px; height=300px;">
+								<div class="carousel-inner">
+									{% for image in annonce.images %}
+										<div class="carousel-item {% if loop.last %}active{% endif %}" style="width:300px; height:300px">
+											<img src="{{ asset('/uploads/'~image.name)}}" alt="image" style="width:300px; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
+										</div>
+									{% endfor %}
+								</div>
+								<button class="carousel-control-prev" type="button" data-bs-target="{{'#carouselExampleControlsNoTouching' ~ annonce.id}}" data-bs-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button" data-bs-target="{{'#carouselExampleControlsNoTouching' ~ annonce.id}}" data-bs-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Next</span>
+								</button>
+							</div>
+						{% endif %}
+						{% if annonce.images | length == 1 %}
+							<div class="carousel-inner">
+								<div id="{{'carouselExampleControlsNoTouching' ~ annonce.id}}" class="carousel slide" data-bs-touch="false" data-bs-interval="false" style="width:300px; height=300px;">
+									{% for image in annonce.images %}
+										<div class="carousel-item active" style="width:300; height:300px">
+											<img src="{{ asset('/uploads/'~ image.name)}}" alt="image" style="width:300px; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						{% endif %}
+					</div>
+					<div class="col-md-8">
+						<div class="card-body">
+							<h5 class="card-title">{{ annonce.title }}</h5>
+							<p class="card-text">{{ annonce.content | u.truncate(50, '...') | raw}}</p>
+							<p class="card-text">
+								<small class="text-muted">{{ annonce.createdAt | date}}</small>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}

@@ -2,8 +2,8 @@
 
 {% block title %}Edit Annonces{% endblock %}
 
-{% block body %}
-    <div class="container py-5">
+{% block main %}
+    <div class="container" style="min-height: calc(100vh - 215.96px - 57px)">
         <h1>Edit Annonces</h1>
 
         {{ include('user_annonce/annonces/_form.html.twig', {'button_label': 'Update'}) }}

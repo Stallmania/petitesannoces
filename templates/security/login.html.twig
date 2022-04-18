@@ -2,8 +2,8 @@
 
 {% block title %}Log in!{% endblock %}
 
-{% block body %}
-<div class="container py-5">
+{% block main %}
+<div class="container" style="min-height: calc(100vh - 215.96px - 57px)">
     <div class="row">
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
@@ -46,7 +46,9 @@
                     Connexion
                 </button>
             </form>
-            <a href="reset-password">mot de passe oublié !</a>
+            <div>
+                <a href="reset-password" class="badge bg-secondary">mot de passe oublié !</a>
+            </div>
         </div>
     </div>
 </div>

@@ -3,8 +3,8 @@
 {% block title %}profil Utilisateur
 {% endblock %}
 
-{% block body %}
-<div class="container py-5">
+{% block main %}
+<div class="container" style="min-height: calc(100vh - 215.96px - 57px)">
 	{% for message in app.flashes('message') %}
 		<div class="p-3 my-2 rounded-1 green light-4 txt-green txt-dark-4">{{message}}</div>
 	{% endfor %}

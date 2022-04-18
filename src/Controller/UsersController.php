@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsersController extends AbstractController
 {
     /**
-     * @Route("/users", name="users")
+     * @Route("/user", name="users")
      */
     public function index(): Response
     {
@@ -25,7 +25,7 @@ class UsersController extends AbstractController
 
     //////////////////////////////////Profil///////////////////////////////
     /**
-     * @Route("/users/profilmodif", name="users_profil_modif")
+     * @Route("/user/profilmodif", name="users_profil_modif")
      */
     public function editProfil(Request $request, EntityManagerInterface $em): Response
     {
@@ -45,7 +45,7 @@ class UsersController extends AbstractController
         ]);
     }
     /**
-     * @Route("/users/passmodif", name="users_passe_modif")
+     * @Route("/user/passmodif", name="users_passe_modif")
      */
     public function editPass(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $manager)
     {
